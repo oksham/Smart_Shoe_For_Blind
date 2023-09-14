@@ -1,0 +1,94 @@
+// defines pins numbers
+#define ui_trigPin 2          
+#define ui_echoPin 4 
+#define s_trigPin 8          
+#define s_echoPin 10         
+#define buz 5
+#define vib 7
+
+
+void setup() {
+  Serial.begin (9600);
+  pinMode(ui_trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(ui_echoPin, INPUT); // Sets the echoPin as an Input
+  pinMode(s_trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(s_echoPin, INPUT); // Sets the echoPin as an Input
+  pinMode(buz, OUTPUT); // Sets the buzzer as an Output
+  pinMode(vib, OUTPUT); // Sets the vibrator as an Output
+}
+
+void loop() 
+{
+ // defines variables
+ int ui_duration, ui_distance;
+ //Sets the trigPin on HIGH state for 1000 micro seconds
+ digitalWrite(ui_trigPin, HIGH);
+ delayMicroseconds(1000);
+ digitalWrite(ui_trigPin, LOW);
+ // Reads the ui_echoPin, returns the sound wave travel time in microseconds
+ ui_duration = pulseIn(ui_echoPin, HIGH);
+ // Calculating the distance
+ ui_distance = (ui_duration/2) / 29.1;
+ // defines variables
+ int s_duration, s_distance;
+ digitalWrite(s_trigPin, HIGH);
+ delayMicroseconds(1000);
+ digitalWrite(s_trigPin, LOW);
+ // Reads the s_echoPin, returns the sound wave travel time in microseconds
+ s_duration = pulseIn(s_echoPin, HIGH);
+ // Calculating the distance
+ s_distance = (s_duration/2) / 29.1;
+ //Enters this loop if up inclined sensor distance is less 80cm and greater than 3cm
+ if (ui_distance >= 3 && ui_distance <= 80)
+ {
+    //Print this statements
+    Serial.println("UP INCLINED LOOP");
+    Serial.print("up distance -");
+    Serial.print(ui_distance);
+    Serial.println(" cm");
+    Serial.print("straight distance -");
+    Serial.print(s_distance);
+    Serial.println(" cm");
+    //buzzer and vibrator is made high
+    digitalWrite(buz, HIGH);
+    digitalWrite(vib, HIGH);
+    delay(100);
+  }
+
+  //Enters this loop if up straight sensor distance is less 30cm and greater than 3cm
+
+  if (s_distance >= 3 && s_distance <= 30)
+  {
+    //Print this statements
+    Serial.println("STRAIGHT INCLINED LOOP");
+    Serial.print("up distance -");
+    Serial.print(ui_distance);
+    Serial.println(" cm");
+    Serial.print("straight distance -");
+    Serial.print(s_distance);
+    Serial.println(" cm");
+    //buzzer and vibrator is made high
+    digitalWrite(buz, HIGH);
+    digitalWrite(vib, HIGH);
+    delay(100);
+  }
+
+  //Enters this loop if up inclined sensor and straight sensor distance is greater than 80cm and 30cm
+ 
+  else 
+  {
+    //Print this statements
+    Serial.println("ELSE LOOP");
+    Serial.print("up distance -");
+    Serial.print(ui_distance);
+    Serial.println(" cm");
+    Serial.print("straight distance -");
+    Serial.print(s_distance);
+    Serial.println(" cm");
+    //buzzer and vibrator is made high
+    digitalWrite(buz, LOW);
+    digitalWrite(vib , LOW);
+    delay(100);
+  }
+  delay(200);
+}
